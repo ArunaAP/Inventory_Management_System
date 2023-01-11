@@ -3,22 +3,26 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const userRoute = require("./routes/userRoute")
+const userRoute = require("./routes/userRoute");
+const errorHandler = require("./middleWare/errorMiddleware");
 
 const app = express();
 
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 //Route Middleware
-app.use("/api/users", userRoute)
+app.use("/api/users", userRoute);
 
 //Routes
 app.get("/", (req, res) => {
   res.send("Home page");
 });
+
+//Error midleware
+app.use(errorHandler);
 
 //Connect to DB and Start server
 const PORT = process.env.PORT || 5000;
